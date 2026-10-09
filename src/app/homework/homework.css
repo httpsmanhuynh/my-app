@@ -1,0 +1,74 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#container {
+  border: 1px solid rgb(221, 221, 224);
+  background: rgb(246, 199, 240);
+  width: fit-content;
+  display: block;
+}
+
+/* Menu chính cấp 1 dạng thanh ngang */
+#container > ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#container > ul > li {
+  position: relative;
+}
+
+#container ul li a {
+  display: block;
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 0.5em 12px;
+  white-space: nowrap;
+}
+
+#container > ul > li > a:hover {
+  color: white;
+  background: rgb(240, 162, 209);
+}
+
+/* Menu con (Dropdown): mặc định ẩn */
+#container li ul {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 14em;
+  background: #ffffff;
+  list-style: none;
+  z-index: 9999;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ddd;
+}
+
+/* Rê chuột (hover) vào li cha thì hiện dropdown menu con */
+#container li:hover > ul {
+  display: block;
+}
+
+/* Từng dòng trong dropdown */
+#container li ul li {
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+#container li ul li a {
+  color: #333333;
+  font-weight: normal;
+  padding: 8px 12px;
+}
+
+#container li ul li a:hover {
+  background: #f0a2d1;
+  color: #ffffff;
+}

@@ -1,0 +1,8 @@
+<h2>Parent Component</h2>
+
+<p *ngIf="dataFromChild">
+  Data from child component:
+  {{ dataFromChild | json }}
+</p>
+
+<app-child [parentData]="data" (childEvent)="getDataFromChild($event)"> </app-child>

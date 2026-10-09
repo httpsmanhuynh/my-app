@@ -1,0 +1,7 @@
+.valid-price {
+  background-color: rgb(164, 222, 164);
+}
+
+.invalid-price {
+  background-color: rgb(247, 160, 160);
+}
