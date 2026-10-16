@@ -30,6 +30,7 @@ import { FashionComponent } from './fashion-component/fashion-component';
 import { FashionDetailComponent } from './fashion-detail-component/fashion-detail-component';
 import { FashionNewComponent } from './fashion-new-component/fashion-new-component';
 import { FashionUpdateComponent } from './fashion-update-component/fashion-update-component';
+import { FashionDeleteComponent } from './fashion-delete-component/fashion-delete-component';
 const routes: Routes = [
   { path: 'binding-property', component: BindingPropertyComponent },
   { path: 'binding-class', component: BindingClassComponent },
@@ -78,6 +79,7 @@ const routes: Routes = [
   { path: 'fashion-detail', component: FashionDetailComponent },
   { path: 'fashion-new', component: FashionNewComponent },
   { path: 'fashion-update', component: FashionUpdateComponent },
+  { path: 'fashion-delete', component: FashionDeleteComponent },
 
   { path: '**', component: PageNotFoundComponent },
 ];
