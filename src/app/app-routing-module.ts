@@ -26,6 +26,10 @@ import { BookDetailComponent } from './book-detail-component/book-detail-compone
 import { BookNewComponent } from './book-new-component/book-new-component';
 import { BookUpdateComponent } from './book-update-component/book-update-component';
 import { BookDeleteComponent } from './book-delete-component/book-delete-component';
+import { FashionComponent } from './fashion-component/fashion-component';
+import { FashionDetailComponent } from './fashion-detail-component/fashion-detail-component';
+import { FashionNewComponent } from './fashion-new-component/fashion-new-component';
+import { FashionUpdateComponent } from './fashion-update-component/fashion-update-component';
 const routes: Routes = [
   { path: 'binding-property', component: BindingPropertyComponent },
   { path: 'binding-class', component: BindingClassComponent },
@@ -70,6 +74,10 @@ const routes: Routes = [
   { path: 'book-new', component: BookNewComponent },
   { path: 'book-update', component: BookUpdateComponent },
   { path: 'book-delete', component: BookDeleteComponent },
+  { path: 'fashion-list', component: FashionComponent },
+  { path: 'fashion-detail', component: FashionDetailComponent },
+  { path: 'fashion-new', component: FashionNewComponent },
+  { path: 'fashion-update', component: FashionUpdateComponent },
 
   { path: '**', component: PageNotFoundComponent },
 ];

@@ -33,6 +33,10 @@ import { BookDetailComponent } from './book-detail-component/book-detail-compone
 import { BookNewComponent } from './book-new-component/book-new-component';
 import { BookUpdateComponent } from './book-update-component/book-update-component';
 import { BookDeleteComponent } from './book-delete-component/book-delete-component';
+import { FashionComponent } from './fashion-component/fashion-component';
+import { FashionDetailComponent } from './fashion-detail-component/fashion-detail-component';
+import { FashionNewComponent } from './fashion-new-component/fashion-new-component';
+import { FashionUpdateComponent } from './fashion-update-component/fashion-update-component';
 @NgModule({
   declarations: [
     App,
@@ -64,6 +68,10 @@ import { BookDeleteComponent } from './book-delete-component/book-delete-compone
     BookNewComponent,
     BookUpdateComponent,
     BookDeleteComponent,
+    FashionComponent,
+    FashionDetailComponent,
+    FashionNewComponent,
+    FashionUpdateComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
   providers: [provideBrowserGlobalErrorListeners(), provideHttpClient(withInterceptorsFromDi())],
