@@ -115,9 +115,9 @@
 .slug-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 8px;
   margin-bottom: 18px;
+  flex-wrap: wrap;
 }
 
 .badge {
@@ -127,18 +127,23 @@
   padding: 6px 8px;
   font-size: 0.72rem;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .slug-row code {
-  flex: 1;
+  flex: 1 1 100%;
+  min-width: 0;
+  display: block;
   background: #f8fafc;
   border-radius: 8px;
   padding: 7px 8px;
   color: #334155;
   font-size: 0.74rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.5;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  word-break: break-word;
 }
 
 .view-link {
