@@ -1,0 +1,42 @@
+.search-panel {
+  border-radius: 12px;
+  background: #fdfdfd;
+}
+
+/* ĐÚNG YÊU CẦU ĐỀ BÀI: */
+/* 1. [0.75 -> 1]: Nền vàng + chữ đỏ */
+.row-yellow-red {
+  background-color: #ffeb3b !important;
+  color: #d32f2f !important;
+  font-weight: 600;
+}
+.row-yellow-red td {
+  background-color: #ffeb3b !important;
+  color: #d32f2f !important;
+}
+
+/* 2. [0.5 -> 0.75): Nền hồng + chữ xanh */
+.row-pink-blue {
+  background-color: #ffc0cb !important;
+  color: #0d6efd !important;
+  font-weight: 600;
+}
+.row-pink-blue td {
+  background-color: #ffc0cb !important;
+  color: #0d6efd !important;
+}
+
+/* 3. < 0.5: Nền đỏ + chữ trắng */
+.row-red-white {
+  background-color: #dc3545 !important;
+  color: #ffffff !important;
+  font-weight: 500;
+}
+.row-red-white td {
+  background-color: #dc3545 !important;
+  color: #ffffff !important;
+}
+
+.table th {
+  vertical-align: middle;
+}

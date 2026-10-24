@@ -1,22 +1,39 @@
-<p>fashion-component works!</p>
-{{ errMessage() }}
-<table border="1">
-  <tr>
-    <td>Id</td>
-    <td>Fashion Subject</td>
-    <td>Fashion Detail</td>
-    <td>Image</td>
-  </tr>
-  <tbody>
+<div class="fashion-page">
+  <div class="page-header">
+    <div>
+      <p class="eyebrow">Fashion collection</p>
+      <h2>Danh sách thời trang</h2>
+    </div>
+    <button class="btn-primary" routerLink="/fashion-new">Add Fashion</button>
+  </div>
+
+  @if (errMessage()) {
+    <div class="alert-box">{{ errMessage() }}</div>
+  }
+
+  <div class="fashion-grid">
     @for (fashion of fashions(); track fashion._id) {
-      <tr>
-        <td>{{ fashion._id }}</td>
-        <td>{{ fashion.fashion_subject }}</td>
-        <td>{{ fashion.fashion_detail }}</td>
-        <td>
-          <img src="{{ fashion.fashion_image }}" width="100px" height="100px" />
-        </td>
-      </tr>
+      <article class="fashion-card">
+        <div class="fashion-image-wrap">
+          <img
+            [src]="
+              fashion.getBase64string() ||
+              'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80'
+            "
+            [alt]="fashion.fashion_subject"
+          />
+        </div>
+
+        <div class="fashion-content">
+          <span class="fashion-id">IdF: {{ fashion.idF ?? '—' }}</span>
+          <h3>{{ fashion.fashion_subject }}</h3>
+          <p>{{ fashion.fashion_detail }}</p>
+          <div class="slug-row">
+            <span class="badge">Slug</span>
+            <code>{{ fashion.slug }}</code>
+          </div>
+        </div>
+      </article>
     }
-  </tbody>
-</table>
+  </div>
+</div>

@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Fashion } from '../classes/Fashion';
 import { FashionAPIService } from '../services/fashion-apiservice';
 
@@ -8,16 +9,50 @@ import { FashionAPIService } from '../services/fashion-apiservice';
   templateUrl: './fashion-detail-component.html',
   styleUrl: './fashion-detail-component.css',
 })
-export class FashionDetailComponent {
+export class FashionDetailComponent implements OnInit {
   fashion = signal<Fashion | null>(null);
   errMessage = signal('');
-  constructor(private _service: FashionAPIService) {}
-  searchFashion(id: string) {
+  selectedId = '';
+
+  constructor(
+    private _service: FashionAPIService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((param) => {
+      const slug = param.get('slug');
+      if (slug) {
+        this.showBySlug(slug);
+      }
+    });
+  }
+
+  searchFashion(idOrSlug: string) {
     this.fashion.set(null);
     this.errMessage.set('');
-    this._service.getFashion(id).subscribe({
+    const raw = (idOrSlug || '').trim();
+    if (!raw) {
+      this.errMessage.set('Please enter a valid Fashion slug or IdF.');
+      return;
+    }
+
+    const idFromSlug = Fashion.extractIdFromSlug(raw);
+    const idToSearch = idFromSlug ?? Number(raw);
+
+    if (!Number.isFinite(idToSearch) || Number(idToSearch) <= 0) {
+      this.errMessage.set('Fashion not found. Please check the slug or idF.');
+      return;
+    }
+
+    this.selectedId = String(idToSearch);
+    this._service.getFashion(this.selectedId).subscribe({
       next: (data) => {
-        //restore object model from json
+        if (!data) {
+          this.errMessage.set('Fashion not found.');
+          return;
+        }
         const fashionInstance = Object.assign(new Fashion(), data);
         this.fashion.set(fashionInstance);
       },
@@ -25,5 +60,18 @@ export class FashionDetailComponent {
         this.errMessage.set(err);
       },
     });
+  }
+
+  showBySlug(slug: string) {
+    const id = Fashion.extractIdFromSlug(slug);
+    if (id == null) {
+      this.errMessage.set('Invalid Fashion slug.');
+      return;
+    }
+    this.searchFashion(String(id));
+  }
+
+  goToList() {
+    this.router.navigate(['/fashion-list']);
   }
 }

@@ -1,0 +1,159 @@
+<p>search-fashion works!</p>
+<div class="container py-4">
+  <!-- TIÊU ĐỀ MÀN HÌNH -->
+  <div class="text-center mb-4">
+    <h2 class="fw-bold text-primary">🔍 HỆ THỐNG TÌM KIẾM THỜI TRANG (SIMILARITY SEARCH)</h2>
+    <p class="text-muted">Áp dụng độ đo tương đồng Cosine & Jaccard theo tiêu chuẩn thẩm mỹ</p>
+  </div>
+
+  <!-- PHẦN TRÊN: FORM TÌM KIẾM VÀ CÁC LỰA CHỌN -->
+  <div class="card shadow-sm border-0 mb-4 p-4 search-panel">
+    <div class="row g-3 align-items-end">
+      <!-- Ô nhập từ khóa -->
+      <div class="col-md-5">
+        <label class="form-label fw-bold">Từ khóa tìm kiếm:</label>
+        <input
+          type="text"
+          class="form-control form-control-lg"
+          [(ngModel)]="keyword"
+          placeholder="Nhập tên hoặc chi tiết thời trang..."
+          (keyup.enter)="onSearch()"
+        />
+      </div>
+
+      <!-- Chọn trường tìm kiếm -->
+      <div class="col-md-2">
+        <label class="form-label fw-bold">Tìm kiếm theo:</label>
+        <select class="form-select form-select-lg" [(ngModel)]="searchField">
+          <option value="fashion_subject">Fashion Subject</option>
+          <option value="fashion_detail">Fashion Detail</option>
+        </select>
+      </div>
+
+      <!-- Chọn độ đo Cosine hoặc Jaccard -->
+      <div class="col-md-2">
+        <label class="form-label fw-bold">Độ đo tương đồng:</label>
+        <select class="form-select form-select-lg" [(ngModel)]="algorithm">
+          <option value="cosine">Cosine Similarity</option>
+          <option value="jaccard">Jaccard Similarity</option>
+        </select>
+      </div>
+
+      <!-- Chọn số lượng kết quả -->
+      <div class="col-md-1">
+        <label class="form-label fw-bold">Hiển thị:</label>
+        <select class="form-select form-select-lg" [(ngModel)]="limit">
+          <option [value]="3">3</option>
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="20">20</option>
+        </select>
+      </div>
+
+      <!-- Nút Search -->
+      <div class="col-md-2">
+        <button class="btn btn-primary btn-lg w-100 fw-bold shadow-sm" (click)="onSearch()">
+          Tìm kiếm
+        </button>
+      </div>
+    </div>
+
+    <!-- Chú thích màu theo đề bài -->
+    <div class="d-flex flex-wrap gap-3 mt-3 pt-3 border-top small align-items-center">
+      <span class="fw-bold">Quy tắc tô màu Similarity:</span>
+      <span class="badge row-yellow-red p-2 border">[0.75 - 1.0]: Nền vàng + Chữ đỏ</span>
+      <span class="badge row-pink-blue p-2 border">[0.5 - 0.75): Nền hồng + Chữ xanh</span>
+      <span class="badge row-red-white p-2 border">&lt; 0.5: Nền đỏ + Chữ trắng</span>
+    </div>
+  </div>
+
+  <!-- BÁO LỖI NẾU CÓ -->
+  <div *ngIf="errMessage" class="alert alert-danger shadow-sm">
+    {{ errMessage }}
+  </div>
+
+  <!-- PHẦN DƯỚI: DANH SÁCH KẾT QUẢ TÌM THẤY -->
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+      <h5 class="mb-0 fw-bold text-dark">
+        Kết quả tìm kiếm
+        <span *ngIf="isSearched" class="badge bg-secondary ms-2"
+          >{{ searchResults.length }} mẫu</span
+        >
+      </h5>
+      <span *ngIf="isSearched" class="text-muted small">
+        Sắp xếp giảm dần theo
+        <strong>{{ algorithm === 'cosine' ? 'Cosine' : 'Jaccard' }} Similarity</strong>
+      </span>
+    </div>
+
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover mb-0 align-middle">
+          <thead class="table-dark text-center">
+            <tr>
+              <th style="width: 80px">Id</th>
+              <th style="width: 120px">Image</th>
+              <th style="width: 120px">Style</th>
+              <th>Fashion Subject</th>
+              <th>Fashion Detail</th>
+              <th style="width: 170px">
+                {{ algorithm === 'cosine' ? 'Cosine' : 'Jaccard' }} Similarity
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of searchResults; track item.fashion._id) {
+              <tr [ngClass]="getRowStyleClass(item.similarity)">
+                <!-- Id -->
+                <td class="text-center fw-bold">#{{ item.fashion._id }}</td>
+                <!-- Image -->
+                <td class="text-center">
+                  <img
+                    [src]="item.fashion.getBase64string()"
+                    [alt]="item.fashion.fashion_subject"
+                    class="img-thumbnail rounded"
+                    style="width: 80px; height: 80px; object-fit: cover"
+                  />
+                </td>
+
+                <!-- Style -->
+                <td class="text-center">
+                  <span class="badge bg-dark px-2 py-1">{{ item.fashion.style }}</span>
+                </td>
+
+                <!-- Subject -->
+                <td class="fw-bold">
+                  {{ item.fashion.fashion_subject }}
+                </td>
+
+                <!-- Detail -->
+                <td class="small">
+                  {{ item.fashion.fashion_detail }}
+                </td>
+
+                <!-- Similarity score -->
+                <td class="text-center">
+                  <div class="similarity-value fs-5 fw-bold">
+                    {{ item.similarity }}
+                  </div>
+                  <div class="small fw-semibold">({{ (item.similarity * 100).toFixed(1) }}%)</div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="text-center py-5 text-muted">
+                  {{
+                    isSearched
+                      ? 'Không tìm thấy kết quả nào phù hợp.'
+                      : 'Vui lòng nhập từ khóa và nhấn nút "Tìm kiếm".'
+                  }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

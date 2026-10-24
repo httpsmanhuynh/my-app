@@ -1,29 +1,51 @@
-<p>fashion-detail-component works!</p>
-<p>{{ errMessage() }}</p>
-Fashion Id: <input type="text" #fashionId />
-<button (click)="searchFashion(fashionId.value)">Search</button>
-<table>
-  @if (fashion() != null) {
-    <tr>
-      <td>Fashion Id:</td>
-      <td>{{ fashion()?._id }}</td>
-    </tr>
-    <tr>
-      <td>Fashion Subject:</td>
-      <td>{{ fashion()?.fashion_subject }}</td>
-    </tr>
-    <tr>
-      <td>Fashion Detail:</td>
-      <td>{{ fashion()?.fashion_detail }}</td>
-    </tr>
-    <tr>
-      <td colspan="2">
-        <img src="{{ fashion()?.getBase64string() }}" />
-      </td>
-    </tr>
-  } @else {
-    <tr>
-      <td>Not found Fashion</td>
-    </tr>
+<div class="detail-page">
+  <div class="detail-toolbar">
+    <button class="btn-secondary" (click)="goToList()">← Quay lại danh sách</button>
+  </div>
+
+  <div class="search-box">
+    <label for="fashionLookup">Fashion Slug / IdF</label>
+    <div class="search-row">
+      <input id="fashionLookup" type="text" #fashionLookup placeholder="Ví dụ: summer-dress-f12" />
+      <button class="btn-primary" (click)="searchFashion(fashionLookup.value)">Search</button>
+    </div>
+  </div>
+
+  @if (errMessage()) {
+    <div class="alert-box">{{ errMessage() }}</div>
   }
-</table>
+
+  @if (fashion() != null) {
+    <article class="detail-card">
+      <div class="detail-image-panel">
+        <img
+          [src]="
+            fashion()?.getBase64string() ||
+            'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80'
+          "
+          [alt]="fashion()?.fashion_subject"
+        />
+      </div>
+
+      <div class="detail-content">
+        <span class="detail-tag">Fashion • IdF {{ fashion()?.idF ?? '—' }}</span>
+        <h2>{{ fashion()?.fashion_subject }}</h2>
+        <p class="detail-slug">Slug: {{ fashion()?.slug }}</p>
+        <p class="detail-description">{{ fashion()?.fashion_detail }}</p>
+
+        <div class="meta-grid">
+          <div>
+            <span class="meta-label">Style</span>
+            <strong>{{ fashion()?.style || 'Unspecified' }}</strong>
+          </div>
+          <div>
+            <span class="meta-label">Mongo Id</span>
+            <strong>{{ fashion()?._id || '—' }}</strong>
+          </div>
+        </div>
+      </div>
+    </article>
+  } @else {
+    <div class="empty-state">Không tìm thấy Fashion phù hợp.</div>
+  }
+</div>

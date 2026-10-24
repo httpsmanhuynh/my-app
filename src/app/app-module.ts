@@ -38,6 +38,7 @@ import { FashionDetailComponent } from './fashion-detail-component/fashion-detai
 import { FashionNewComponent } from './fashion-new-component/fashion-new-component';
 import { FashionUpdateComponent } from './fashion-update-component/fashion-update-component';
 import { FashionDeleteComponent } from './fashion-delete-component/fashion-delete-component';
+import { SearchFashionComponent } from './search-fashion/search-fashion';
 @NgModule({
   declarations: [
     App,
@@ -74,6 +75,7 @@ import { FashionDeleteComponent } from './fashion-delete-component/fashion-delet
     FashionNewComponent,
     FashionUpdateComponent,
     FashionDeleteComponent,
+    SearchFashionComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
   providers: [provideBrowserGlobalErrorListeners(), provideHttpClient(withInterceptorsFromDi())],
